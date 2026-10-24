@@ -1,18 +1,23 @@
 from typing import Annotated
 
 from fastapi import Depends
-from sqlmodel import Session, SQLModel, create_engine
+from sqlmodel import Session, create_engine
 
 from .config import settings
 
 # Database Config
 # Create the database engine
-engine = create_engine(settings.database_url, echo=True)
+engine = create_engine(
+    settings.database_url,
+    echo=settings.debug,  # SQL logging only when DEBUG=true
+    pool_pre_ping=True,
+    pool_recycle=settings.pool_recycle,
+)
 
 
-# Function to create tables in the database
-def create_db_and_tables():
-    SQLModel.metadata.create_all(engine)
+# # Function to create tables in the database
+# def create_db_and_tables():
+#     SQLModel.metadata.create_all(engine)
 
 
 # Dependency Injection for Database Sessions

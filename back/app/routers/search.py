@@ -1,0 +1,1 @@
+# when searching for users check if the user is active user

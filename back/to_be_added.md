@@ -1,0 +1,1 @@
+- [ ] if checked (if user.id == current_user.id) checking the if the current_user is the specific student, first check if current_user is Student, not to be conflicted by professor have the same id as the specific student.
