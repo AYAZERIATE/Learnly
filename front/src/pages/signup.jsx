@@ -12,26 +12,38 @@ function Signup() {
     const [Loading, setloading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setError("");
+  
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
-        if (Password !== ConfirmPassword) {
-            setError("Passwords do not match");
-            return;
-        }
+    if (Password !== ConfirmPassword) {
+        setError("Passwords do not match");
+        return;
+    }
 
-        const result = SignupUser({ FullName, email: Email, password: Password, role: Role });
+    setloading(true);
+
+    try {
+        const result = await SignupUser({
+            FullName,
+            email: Email,
+            password: Password,
+            role: Role
+        });
+
         if (!result.success) {
             setError(result.message);
             return;
         }
-        setloading(true);
-        setTimeout(() => {
-            setloading(false);
-            navigate("/");
-        }, 5000);
-    };
+
+        navigate("/");
+
+    } finally {
+        setloading(false);
+    }
+};
+
 
     return (
         <>
