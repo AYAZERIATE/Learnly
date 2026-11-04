@@ -17,7 +17,7 @@ function Sidebar() {
   const [activeItem, setActiveItem] = useState("Home");
 
   const items = [
-    { text: "Home", icon: <LayoutDashboard size={20} /> },
+    { text: "Dashboard", icon: <LayoutDashboard size={20} /> },
     { text: "Course", icon: <BookOpen size={20} /> },
     { text: "Schedule", icon: <Calendar size={20} /> },
     { text: "Settings", icon: <Settings size={20} /> },

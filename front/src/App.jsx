@@ -9,10 +9,9 @@ import {
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/dashboard';
-import Profile from './pages/Profile';
-import Users from './pages/Users';
 import Settings from './pages/Settings';
-
+import Schedule from './pages/Schedule';
+import Course from './pages/Course';
 import MainLayout from './layouts/MainLayout';
 
 function App() {
@@ -26,8 +25,8 @@ function App() {
 
                 <Route element={<MainLayout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/users" element={<Users />} />
+                    <Route path="/Schedule" element={<Schedule />} />
+                    <Route path="/Course" element={<Course />} />
                     <Route path="/settings" element={<Settings />} />
                 </Route>
 
