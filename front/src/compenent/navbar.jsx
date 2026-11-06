@@ -15,7 +15,7 @@ function Navbar() {
           justify-content: space-between;
           gap: 16px;
           padding: 12px 24px;
-          background: #fffdf9;
+          background: #866c37;
           border-bottom: 1px solid #e6dccd;
           box-shadow: 0 4px 16px rgba(120, 100, 70, 0.08);
           font-family: "Segoe UI", Arial, sans-serif;

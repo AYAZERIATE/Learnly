@@ -1,11 +1,11 @@
-import { Sidebar } from "lucide-react";
+import { Outlet } from "react-router-dom";
+import Navbar from "../compenent/navbar";
+import Sidebar from "../compenent/sidebar";
+import Footer from "../compenent/footer";
 
-function MainLayout (){
-
-
-    return(
-        <div>
-           <div className="App-layout" >
+function MainLayout() {
+    return (
+        <div className="app-layout">
             <Navbar />
             <div className="app-body">
                 <Sidebar />
@@ -14,7 +14,8 @@ function MainLayout (){
                 </main>
             </div>
             <Footer />
-           </div>
         </div>
-    )
-}export default MainLayout;
+    );
+}
+
+export default MainLayout;
