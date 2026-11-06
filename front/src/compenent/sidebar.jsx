@@ -1,5 +1,6 @@
 import { LayoutDashboard, BookOpen, Calendar, Settings } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SidebarItem({ icon, text, active, onClick }) {
   return (
@@ -14,7 +15,8 @@ function SidebarItem({ icon, text, active, onClick }) {
 }
 
 function Sidebar() {
-  const [activeItem, setActiveItem] = useState("Home");
+  const navigate = useNavigate();
+  const [activeItem, setActiveItem] = useState("Dashboard");
 
   const items = [
     { text: "Dashboard", icon: <LayoutDashboard size={20} /> },
@@ -69,7 +71,10 @@ function Sidebar() {
             icon={item.icon}
             text={item.text}
             active={activeItem === item.text}
-            onClick={() => setActiveItem(item.text)}
+            onClick={() => {
+              setActiveItem(item.text);
+              navigate(`/${item.text}`);
+            }}
           />
         ))}
       </aside>

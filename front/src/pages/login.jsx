@@ -1,14 +1,13 @@
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { loginUser } from "../services/auth";
+import { loginUser, googleLogin } from "../services/auth";
 
 function Login() {
     const navigate = useNavigate();
 
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
-    const [Error, setError] = useState("");
+    const [error, setError] = useState("");
     const [Loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
@@ -24,9 +23,13 @@ function Login() {
                 return;
             }
 
+            if (result.data?.access_token) {
+                localStorage.setItem("token", result.data.access_token);
+            }
+
             navigate("/dashboard");
 
-        } catch (error) {
+        } catch (err) {
             setError("Something went wrong");
         } finally {
             setLoading(false);
@@ -36,7 +39,7 @@ function Login() {
     return (
         <div className="auth-page">
 
-            <h1>Welcome back to Learnly</h1>
+            <h1>Welcome back to Learny</h1>
 
             <div className="auth-card">
 
@@ -60,7 +63,7 @@ function Login() {
                         required
                     />
 
-                    {Error && <p className="error">{Error}</p>}
+                    {error && <p className="error">{error}</p>}
 
                     <button type="submit" disabled={Loading}>
                         {Loading ? "Loading..." : "Login"}
@@ -69,7 +72,7 @@ function Login() {
                     <button
                         type="button"
                         className="google-button"
-                        disabled
+                        onClick={googleLogin}
                     >
                         Google
                     </button>

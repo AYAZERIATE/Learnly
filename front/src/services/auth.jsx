@@ -1,8 +1,7 @@
-
 const API_URL = "http://127.0.0.1:8000/auth";
 
 // SIGNUP
-export async function SignupUser({ FullName, email, password }) {
+export async function SignupUser({ FullName, email, password, role }) {
     try {
         const response = await fetch(`${API_URL}/register`, {
             method: "POST",
@@ -12,7 +11,8 @@ export async function SignupUser({ FullName, email, password }) {
             body: JSON.stringify({
                 full_name: FullName,
                 username: email,
-                password: password
+                password: password,
+                role: role
             })
         });
 
@@ -72,4 +72,9 @@ export async function loginUser(email, password) {
             message: "Cannot connect to server"
         };
     }
+}
+
+// GOOGLE
+export function googleLogin() {
+    window.location.href = `${API_URL}/google`;
 }

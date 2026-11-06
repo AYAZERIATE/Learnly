@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { SignupUser } from "../services/auth";
+import { SignupUser, googleLogin } from "../services/auth";
 
 function Signup() {
     const navigate = useNavigate();
@@ -11,7 +10,7 @@ function Signup() {
     const [Password, setPassword] = useState("");
     const [ConfirmPassword, setConfirmPassword] = useState("");
     const [Role, setRole] = useState("Student");
-    const [Error, setError] = useState("");
+    const [error, setError] = useState("");
     const [Loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
@@ -34,7 +33,8 @@ function Signup() {
             const result = await SignupUser({
                 FullName,
                 email: Email,
-                password: Password
+                password: Password,
+                role: Role
             });
 
             if (!result.success) {
@@ -44,7 +44,7 @@ function Signup() {
 
             navigate("/login");
 
-        } catch (error) {
+        } catch (err) {
             setError("Something went wrong");
         } finally {
             setLoading(false);
@@ -107,7 +107,7 @@ function Signup() {
                         <option value="Professor">Professor</option>
                     </select>
 
-                    {Error && <p className="error">{Error}</p>}
+                    {error && <p className="error">{error}</p>}
 
                     <button type="submit" disabled={Loading}>
                         {Loading ? "Loading..." : "Sign up"}
@@ -116,7 +116,7 @@ function Signup() {
                     <button
                         type="button"
                         className="google-button"
-                        disabled
+                        onClick={googleLogin}
                     >
                         Google
                     </button>

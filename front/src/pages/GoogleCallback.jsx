@@ -6,6 +6,7 @@ function GoogleCallback() {
 
     useEffect(() => {
         const token = new URLSearchParams(window.location.search).get("token");
+
         if (token) {
             localStorage.setItem("token", token);
             navigate("/dashboard");

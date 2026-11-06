@@ -5,9 +5,9 @@ import {
     Route,
     Navigate
 } from 'react-router-dom';
-
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Login from './pages/login';
+import Signup from './pages/signup';
+import GoogleCallback from './pages/GoogleCallback';
 import Dashboard from './pages/dashboard';
 import Settings from './pages/Settings';
 import Schedule from './pages/Schedule';
@@ -21,6 +21,7 @@ function App() {
                 <Route path="/" element={<Navigate to="/login" replace />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/auth/callback" element={<GoogleCallback />} />
 
                 <Route element={<MainLayout />}>
                     <Route path="/Dashboard" element={<Dashboard />} />
