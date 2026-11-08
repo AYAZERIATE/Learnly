@@ -7,6 +7,8 @@ function SidebarItem({ icon, text, active, onClick }) {
     <button
       className={`sidebar-item ${active ? "active" : ""}`}
       onClick={onClick}
+      title={text}
+      aria-current={active ? "page" : undefined}
     >
       {icon}
       <span>{text}</span>
@@ -14,7 +16,8 @@ function SidebarItem({ icon, text, active, onClick }) {
   );
 }
 
-function Sidebar() {
+// theme: "beige" (default) | "brown" | "charcoal"
+function Sidebar({ theme = "beige" }) {
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState("Dashboard");
 
@@ -28,19 +31,65 @@ function Sidebar() {
   return (
     <>
       <style>{`
+        .sidebar,
+        .sidebar[data-theme="beige"] {
+          --sb-bg-top: #fbf6ec;
+          --sb-bg-bottom: #efe6d6;
+          --sb-border: #e0d5c4;
+          --sb-text: #7a6e62;
+          --sb-text-strong: #3b332b;
+          --sb-hover: rgba(134, 108, 55, 0.1);
+          --sb-active-bg: #ffffff;
+          --sb-accent: #866c37;
+          --sb-shadow: rgba(120, 100, 70, 0.16);
+        }
+        .sidebar[data-theme="brown"] {
+          --sb-bg-top: #94793f;
+          --sb-bg-bottom: #7a6130;
+          --sb-border: rgba(0, 0, 0, 0.18);
+          --sb-text: rgba(255, 255, 255, 0.75);
+          --sb-text-strong: #ffffff;
+          --sb-hover: rgba(255, 255, 255, 0.14);
+          --sb-active-bg: rgba(255, 255, 255, 0.2);
+          --sb-accent: #ffffff;
+          --sb-shadow: rgba(60, 45, 20, 0.28);
+        }
+        .sidebar[data-theme="charcoal"] {
+          --sb-bg-top: #33363b;
+          --sb-bg-bottom: #2b2d31;
+          --sb-border: rgba(0, 0, 0, 0.35);
+          --sb-text: #a1a5ab;
+          --sb-text-strong: #f3f4f6;
+          --sb-hover: rgba(255, 255, 255, 0.08);
+          --sb-active-bg: #404449;
+          --sb-accent: #d6b98c;
+          --sb-shadow: rgba(0, 0, 0, 0.35);
+        }
+
         .sidebar {
+          --sb-width: 240px;
+
+          position: sticky;
+          top: 64px;
+          align-self: flex-start;
           display: flex;
           flex-direction: column;
           gap: 4px;
-          width: 240px;
+          width: var(--sb-width);
           flex-shrink: 0;
-          min-height: 100vh;
+          height: calc(100vh - 64px);
           padding: 20px 12px;
-          background: #fffdf9;
-          border-right: 1px solid #e6dccd;
-          font-family: "Segoe UI", Arial, sans-serif;
-          color: #3b332b;
+          overflow-y: auto;
+          background: linear-gradient(180deg, var(--sb-bg-top), var(--sb-bg-bottom));
+          border-right: 1px solid var(--sb-border);
+          box-shadow:
+            inset -1px 0 0 rgba(255, 255, 255, 0.15),
+            4px 0 14px var(--sb-shadow);
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+          color: var(--sb-text-strong);
+          -webkit-font-smoothing: antialiased;
           box-sizing: border-box;
+          transition: width 0.2s ease;
         }
         .sidebar-item {
           position: relative;
@@ -56,24 +105,27 @@ function Sidebar() {
           font-family: inherit;
           font-size: 14px;
           font-weight: 500;
-          color: #7a6e62;
+          color: var(--sb-text);
           cursor: pointer;
           text-align: left;
-          transition: background 0.2s, color 0.2s;
+          white-space: nowrap;
+          transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
         }
         .sidebar-item svg { flex-shrink: 0; }
         .sidebar-item:hover {
-          background: #f5efe6;
-          color: #3b332b;
+          background: var(--sb-hover);
+          color: var(--sb-text-strong);
+          transform: translateX(2px);
         }
         .sidebar-item:focus-visible {
-          outline: 2px solid #b08968;
+          outline: 2px solid var(--sb-accent);
           outline-offset: 2px;
         }
         .sidebar-item.active {
-          background: #f1e6d6;
-          color: #866c37;
+          background: var(--sb-active-bg);
+          color: var(--sb-accent);
           font-weight: 600;
+          box-shadow: 0 2px 8px var(--sb-shadow);
         }
         .sidebar-item.active::before {
           content: "";
@@ -82,12 +134,51 @@ function Sidebar() {
           top: 8px;
           bottom: 8px;
           width: 3px;
-          background: #866c37;
+          background: var(--sb-accent);
           border-radius: 0 3px 3px 0;
+        }
+
+        /* Tablette: icônes bohdhom */
+        @media (max-width: 900px) {
+          .sidebar { --sb-width: 72px; padding: 20px 10px; }
+          .sidebar-item { justify-content: center; padding: 0; }
+          .sidebar-item span { display: none; }
+        }
+
+        /* Mobile: barre l t7t */
+        @media (max-width: 600px) {
+          .sidebar {
+            position: fixed;
+            top: auto;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 100%;
+            height: 60px;
+            padding: 8px;
+            overflow: visible;
+            border-right: none;
+            border-top: 1px solid var(--sb-border);
+            box-shadow: 0 -4px 14px var(--sb-shadow);
+          }
+          .sidebar-item { width: auto; flex: 1; height: 44px; }
+          .sidebar-item:hover { transform: none; }
+          .sidebar-item.active::before {
+            left: 20%;
+            right: 20%;
+            top: -9px;
+            bottom: auto;
+            width: auto;
+            height: 3px;
+            border-radius: 0 0 3px 3px;
+          }
         }
       `}</style>
 
-      <aside className="sidebar">
+      <aside className="sidebar" data-theme={theme}>
         {items.map((item) => (
           <SidebarItem
             key={item.text}
