@@ -2,6 +2,11 @@ import { useState } from "react";
 
 function Setting() {
     const [Password, setPassword] = useState("");
+    const [FirstName, setFirstName] = useState("");
+    const [LastName, setLastName] = useState("");
+    const [Email, setEmail] = useState("");
+    const [Gender, setGender] = useState("Female");
+    const [BirthDate, setBirthDate] = useState("");
 
     return (
         <>
@@ -34,7 +39,8 @@ function Setting() {
                     font-weight: 600;
                     color: #3b332b;
                 }
-                .settings-page .login {
+                .settings-page .login,
+                .settings-page .details {
                     display: flex;
                     flex-direction: column;
                     gap: 8px;
@@ -44,18 +50,26 @@ function Setting() {
                     border-radius: 12px;
                     box-shadow: 0 1px 3px rgba(120, 100, 70, 0.06);
                 }
-                .settings-page .login h3 {
+                .settings-page .details { margin-top: 24px; }
+                .settings-page .login h3,
+                .settings-page .details h2 {
                     margin: 0 0 8px;
                     padding-bottom: 12px;
                     border-bottom: 1px solid #ebe3d5;
                     font-size: 16px;
                     font-weight: 600;
                 }
-                .settings-page .login p {
+                .settings-page .login p,
+                .settings-page .details .label {
                     margin: 8px 0 0;
                     font-size: 13px;
                     font-weight: 500;
                     color: #7a6e62;
+                }
+                .settings-page .details .value {
+                    margin: 0;
+                    font-size: 15px;
+                    color: #3b332b;
                 }
                 .settings-page input,
                 .settings-page select {
@@ -121,6 +135,33 @@ function Setting() {
                         <option>teacher</option>
                     </select>
                     <button type="button">update Role</button>
+                </div>
+
+                <div className="details">
+                    <h2>Your personnel details</h2>
+                    <p className="label">Your Full Name:</p>
+                    <p className="value">{FirstName} {LastName}</p>
+                    <p className="label">Your Email:</p>
+                    <p className="value">{Email}</p>
+                    <p className="label">Gender</p>
+                    <div className="value">
+                        <select
+                            value={Gender}
+                            onChange={(e) => setGender(e.target.value)}
+                        >
+                            <option>Female</option>
+                            <option>Male</option>
+                        </select>
+                    </div>
+                    <p className="label">date of birth</p>
+                    <div className="value">
+                        <input
+                            type="date"
+                            value={BirthDate}
+                            onChange={(e) => setBirthDate(e.target.value)}
+                        />
+                    </div>
+                    <button type="button">Update</button>
                 </div>
             </div>
         </>
