@@ -10,16 +10,20 @@ function Navbar() {
     <>
       <style>{`
         .navbar {
+          position: sticky;
+          top: 0;
+          z-index: 100;
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 16px;
-          padding: 12px 24px;
+          height: 64px;
+          padding: 0 24px;
           background: #866c37;
-          border-bottom: 1px solid #e6dccd;
-          box-shadow: 0 4px 16px rgba(120, 100, 70, 0.08);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+          box-shadow: 0 2px 8px rgba(60, 45, 20, 0.15);
           font-family: "Segoe UI", Arial, sans-serif;
-          color: #3b332b;
+          color: #ffffff;
           box-sizing: border-box;
         }
         .navbar .search {
@@ -27,16 +31,17 @@ function Navbar() {
           align-items: center;
           gap: 10px;
           flex: 1;
-          max-width: 400px;
-          padding: 8px 12px;
-          background: #ffffff;
-          border: 1px solid #e0d5c4;
-          border-radius: 8px;
+          max-width: 420px;
+          height: 40px;
+          padding: 0 14px;
+          background: rgba(255, 255, 255, 0.95);
+          border: 1px solid transparent;
+          border-radius: 10px;
           transition: border-color 0.2s, box-shadow 0.2s;
         }
         .navbar .search:focus-within {
-          border-color: #b08968;
-          box-shadow: 0 0 0 3px rgba(176, 137, 104, 0.2);
+          border-color: #e6dccd;
+          box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.28);
         }
         .navbar .search svg { color: #7a6e62; flex-shrink: 0; }
         .navbar .search input {
@@ -47,10 +52,11 @@ function Navbar() {
           font-size: 14px;
           color: #3b332b;
         }
+        .navbar .search input::placeholder { color: #9a8d7d; }
         .navbar .actions {
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 6px;
         }
         .navbar .notification,
         .navbar .messages {
@@ -58,29 +64,37 @@ function Navbar() {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 8px;
-          background: #ffffff;
-          border: 1px solid #e0d5c4;
-          border-radius: 8px;
-          color: #3b332b;
+          width: 40px;
+          height: 40px;
+          padding: 0;
+          background: transparent;
+          border: none;
+          border-radius: 10px;
+          color: #ffffff;
           cursor: pointer;
           transition: background 0.2s;
         }
         .navbar .notification:hover,
-        .navbar .messages:hover { background: #f5efe6; }
+        .navbar .messages:hover { background: rgba(255, 255, 255, 0.16); }
+        .navbar .notification:focus-visible,
+        .navbar .messages:focus-visible {
+          outline: 2px solid #ffffff;
+          outline-offset: 2px;
+        }
         .navbar .badge {
           position: absolute;
-          top: -6px;
-          right: -6px;
+          top: 3px;
+          right: 3px;
           min-width: 18px;
           height: 18px;
           padding: 0 5px;
           background: #a14a3b;
           color: #ffffff;
+          border: 2px solid #866c37;
           border-radius: 9px;
-          font-size: 11px;
-          font-weight: 500;
-          line-height: 18px;
+          font-size: 10px;
+          font-weight: 600;
+          line-height: 14px;
           text-align: center;
           box-sizing: border-box;
         }
@@ -88,21 +102,21 @@ function Navbar() {
 
       <div className="navbar">
         <div className="search">
-          <Search size={26} />
+          <Search size={18} />
           <input
             type="text"
-            placeholder="search"
+            placeholder="Search..."
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </div>
         <div className="actions">
           <button className="notification" aria-label="Notifications">
-            <Bell size={26} />
+            <Bell size={20} />
             {notificationCount > 0 && <span className="badge">{notificationCount}</span>}
           </button>
           <button className="messages" aria-label="Messages">
-            <MessageSquare size={26} />
+            <MessageSquare size={20} />
             {messageCount > 0 && <span className="badge">{messageCount}</span>}
           </button>
         </div>
