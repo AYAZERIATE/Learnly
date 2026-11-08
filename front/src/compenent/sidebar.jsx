@@ -1,4 +1,12 @@
-import { LayoutDashboard, BookOpen, Calendar, Settings } from "lucide-react";
+import {
+  LayoutDashboard,
+  BookOpen,
+  Calendar,
+  MessageSquare,
+  Settings,
+  PanelLeftClose,
+  PanelLeftOpen,
+} from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,11 +28,13 @@ function SidebarItem({ icon, text, active, onClick }) {
 function Sidebar({ theme = "beige" }) {
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState("Dashboard");
+  const [collapsed, setCollapsed] = useState(false);
 
   const items = [
     { text: "Dashboard", icon: <LayoutDashboard size={20} /> },
     { text: "Course", icon: <BookOpen size={20} /> },
     { text: "Schedule", icon: <Calendar size={20} /> },
+    { text: "Messages", icon: <MessageSquare size={20} /> },
     { text: "Settings", icon: <Settings size={20} /> },
   ];
 
@@ -138,11 +148,26 @@ function Sidebar({ theme = "beige" }) {
           border-radius: 0 3px 3px 0;
         }
 
-        /* Tablette: icônes bohdhom */
+        /* Toggle: kayban f l'te7t */
+        .sidebar-toggle {
+          margin-top: auto;
+          border-top: 1px solid var(--sb-border);
+          border-radius: 0 0 10px 10px;
+          height: 46px;
+        }
+
+        /* Sidebar msedda: icônes bohdhom */
+        .sidebar.collapsed { --sb-width: 72px; padding: 20px 10px; }
+        .sidebar.collapsed .sidebar-item { justify-content: center; padding: 0; }
+        .sidebar.collapsed .sidebar-item span { display: none; }
+        .sidebar.collapsed .sidebar-item.active::before { left: -10px; }
+
+        /* Tablette: icônes bohdhom (toggle makaynch) */
         @media (max-width: 900px) {
           .sidebar { --sb-width: 72px; padding: 20px 10px; }
           .sidebar-item { justify-content: center; padding: 0; }
           .sidebar-item span { display: none; }
+          .sidebar-toggle { display: none; }
         }
 
         /* Mobile: barre l t7t */
@@ -178,7 +203,10 @@ function Sidebar({ theme = "beige" }) {
         }
       `}</style>
 
-      <aside className="sidebar" data-theme={theme}>
+      <aside
+        className={`sidebar ${collapsed ? "collapsed" : ""}`}
+        data-theme={theme}
+      >
         {items.map((item) => (
           <SidebarItem
             key={item.text}
@@ -191,6 +219,17 @@ function Sidebar({ theme = "beige" }) {
             }}
           />
         ))}
+
+        <button
+          className="sidebar-item sidebar-toggle"
+          onClick={() => setCollapsed((c) => !c)}
+          title={collapsed ? "Open sidebar" : "Close sidebar"}
+          aria-label={collapsed ? "Open sidebar" : "Close sidebar"}
+          aria-expanded={!collapsed}
+        >
+          {collapsed ? <PanelLeftOpen size={20} /> : <PanelLeftClose size={20} />}
+          <span>Collapse</span>
+        </button>
       </aside>
     </>
   );
