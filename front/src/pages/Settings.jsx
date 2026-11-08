@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function Setting() {
     const [Password, setPassword] = useState("");
@@ -7,6 +7,42 @@ function Setting() {
     const [Email, setEmail] = useState("");
     const [Gender, setGender] = useState("Female");
     const [BirthDate, setBirthDate] = useState("");
+    const [PhotoFile, setPhotoFile] = useState(null);
+    const [PhotoPreview, setPhotoPreview] = useState("");
+    const [PhotoError, setPhotoError] = useState("");
+    const photoInputRef = useRef(null);
+
+    // nettoyage dyal l'URL dyal preview
+    useEffect(() => {
+        return () => {
+            if (PhotoPreview) URL.revokeObjectURL(PhotoPreview);
+        };
+    }, [PhotoPreview]);
+
+    const handlePhotoChange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            setPhotoError("Please choose an image file");
+            return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+            setPhotoError("Image must be smaller than 2 MB");
+            return;
+        }
+
+        setPhotoError("");
+        setPhotoFile(file);
+        setPhotoPreview(URL.createObjectURL(file));
+    };
+
+    const handleRemovePhoto = () => {
+        setPhotoFile(null);
+        setPhotoPreview("");
+        setPhotoError("");
+        if (photoInputRef.current) photoInputRef.current.value = "";
+    };
 
     return (
         <>
@@ -112,13 +148,111 @@ function Setting() {
                     outline: 2px solid #b08968;
                     outline-offset: 2px;
                 }
+
+                /* ===== Photo ===== */
+                .settings-page .photo-row {
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    margin-top: 4px;
+                }
+                .settings-page .avatar {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                    width: 88px;
+                    height: 88px;
+                    overflow: hidden;
+                    background: #f1e6d6;
+                    border: 2px solid #ebe3d5;
+                    border-radius: 50%;
+                    font-size: 28px;
+                    font-weight: 600;
+                    color: #866c37;
+                }
+                .settings-page .avatar img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                .settings-page .photo-actions {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
+                }
+                .settings-page .photo-actions button { margin-top: 0; }
+                .settings-page .photo-actions .secondary {
+                    background: transparent;
+                    border: 1px solid #e0d5c4;
+                    color: #7a6e62;
+                }
+                .settings-page .photo-actions .secondary:hover { background: #f5efe6; }
+                .settings-page .photo-input { display: none; }
+                .settings-page .photo-hint {
+                    margin: 4px 0 0;
+                    font-size: 12px;
+                    color: #9a8d7d;
+                }
+                .settings-page .photo-error {
+                    margin: 4px 0 0;
+                    font-size: 12px;
+                    color: #a14a3b;
+                }
             `}</style>
 
             <div className="settings-page">
                 <h1>Profile Setting</h1>
                 <div className="login">
-                    <h3>Login details</h3>
+                    <h3> Account Information</h3>
 
+                    <p className="label">Profile photo</p>
+                    <div className="photo-row">
+                        <div className="avatar">
+                            {PhotoPreview ? (
+                                <img src={PhotoPreview} alt="Profile preview" />
+                            ) : (
+                                <span>{(FirstName || "?").charAt(0).toUpperCase()}</span>
+                            )}
+                        </div>
+                        <div className="photo-actions">
+                            <input
+                                ref={photoInputRef}
+                                className="photo-input"
+                                type="file"
+                                accept="image/*"
+                                onChange={handlePhotoChange}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => photoInputRef.current?.click()}
+                            >
+                                Choose photo
+                            </button>
+                            {PhotoPreview && (
+                                <button
+                                    type="button"
+                                    className="secondary"
+                                    onClick={handleRemovePhoto}
+                                >
+                                    Remove
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                    {PhotoError ? (
+                        <p className="photo-error">{PhotoError}</p>
+                    ) : (
+                        <p className="photo-hint">JPG or PNG, max 2 MB</p>
+                    )}
+
+                    <p className="label">First Name :</p>
+                    <p className="value">  {FirstName}  </p>
+                    <p className="label">Last Name :</p>
+                    <p className="value">  {LastName}  </p>
+                    <p className="label">Email :</p>
+                    <p className="value">{Email}</p>
+                    
                     <p>current password</p>
                     <input
                         type="password"
@@ -138,11 +272,8 @@ function Setting() {
                 </div>
 
                 <div className="details">
-                    <h2>Your personnel details</h2>
-                    <p className="label">Your Full Name:</p>
-                    <p className="value">{FirstName} {LastName}</p>
-                    <p className="label">Your Email:</p>
-                    <p className="value">{Email}</p>
+                    <h2>Personnel Information</h2>
+                   
                     <p className="label">Gender</p>
                     <div className="value">
                         <select
@@ -160,6 +291,7 @@ function Setting() {
                             value={BirthDate}
                             onChange={(e) => setBirthDate(e.target.value)}
                         />
+                        
                     </div>
                     <button type="button">Update</button>
                 </div>
