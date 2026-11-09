@@ -361,6 +361,251 @@ function Dashboard() {
                     .dashboard-page .review .review-subtitle { margin-bottom: 36px; }
                     .dashboard-page .course-list { grid-template-columns: minmax(0, 1fr); gap: 32px; }
                 }
+                    
+/* Smooth transitions */
+.dashboard-page * {
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease,
+        border-color 0.25s ease;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Slide up */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hero */
+.dashboard-page .hero-content {
+    animation: slideUp 0.9s ease both;
+}
+
+/* Filters */
+.dashboard-page .filters {
+    animation: fadeIn 1s ease both;
+}
+
+/* Course cards */
+.dashboard-page .course {
+    animation: slideUp 0.7s ease both;
+}
+
+.dashboard-page .course:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.dashboard-page .course:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+/* Course hover */
+.dashboard-page .course:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 12px 25px rgba(120, 100, 70, 0.13);
+}
+
+.dashboard-page .course:hover .course-image {
+    transform: scale(1.04);
+}
+
+/* Testimonials */
+.dashboard-page .review-card {
+    animation: slideUp 0.8s ease both;
+}
+
+.dashboard-page .review-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-page *,
+    .dashboard-page *::before,
+    .dashboard-page *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+
+/* ===== Course Cards ===== */
+
+.dashboard-page .course-list {
+    gap: 30px;
+}
+
+.dashboard-page .course {
+    position: relative;
+    border: 1px solid #eee5d8;
+    border-radius: 18px;
+    background: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(80, 60, 30, 0.05);
+
+    opacity: 0;
+    animation: cardEntrance 0.7s ease forwards;
+}
+
+.dashboard-page .course:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.dashboard-page .course:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-page .course:hover {
+    transform: translateY(-9px);
+    box-shadow: 0 15px 35px rgba(80, 60, 30, 0.12);
+    border-color: #c6a66b;
+}
+
+.dashboard-page .course .course-image {
+    height: 190px;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.dashboard-page .course:hover .course-image {
+    transform: scale(1.06);
+}
+
+.dashboard-page .course .course-title {
+    font-size: 17px;
+    font-weight: 650;
+    margin-top: 5px;
+    color: #3b332b;
+}
+
+.dashboard-page .course .course-meta {
+    line-height: 1.7;
+}
+
+.dashboard-page .course button {
+    border-radius: 25px;
+    padding: 0 24px;
+    transition: all 0.3s ease;
+}
+
+.dashboard-page .course button:hover {
+    background: #6f592c;
+    transform: scale(1.04);
+}
+
+/* ===== Testimonials ===== */
+
+.dashboard-page .review-list {
+    gap: 28px;
+}
+
+.dashboard-page .review-card {
+    position: relative;
+    padding: 32px 24px;
+    border-radius: 18px;
+    background: #fffdf9;
+    border: 1px solid #eee5d8;
+    box-shadow: 0 4px 15px rgba(80, 60, 30, 0.05);
+
+    opacity: 0;
+    animation: testimonialEntrance 0.8s ease forwards;
+}
+
+.dashboard-page .review-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dashboard-page .review-card:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes testimonialEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-page .review-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 15px 30px rgba(80, 60, 30, 0.1);
+    border-color: #c6a66b;
+}
+
+.dashboard-page .review-avatar {
+    width: 82px;
+    height: 82px;
+    border: 3px solid #e8d8b9;
+    transition: transform 0.4s ease;
+}
+
+.dashboard-page .review-card:hover .review-avatar {
+    transform: scale(1.08);
+}
+
+.dashboard-page .review-text {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #766b5e;
+}
+
+.dashboard-page .review-name {
+    font-size: 15px;
+    font-weight: 650;
+    color: #4a3c2b;
+}
+
+.dashboard-page .review-country {
+    color: #a18c70;
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-page .course,
+    .dashboard-page .review-card {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .dashboard-page .course *,
+    .dashboard-page .review-card * {
+        transition: none !important;
+    }
+}
+
             `}</style>
 
             <div className="dashboard-page">
