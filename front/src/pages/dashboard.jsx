@@ -3,11 +3,36 @@ import heroImage from "../assets/dashboard.jpg";
 import python from "../assets/Python.jpg";
 import uxui from "../assets/Uxui.jpg";
 import machineLearning from "../assets/Machinelearning.jpg";
+import student1 from "../assets/student1.jpg";
+import student2 from "../assets/student2.jpg";
+import student3 from "../assets/student3.jpg";
 
 const courses = [
     { title: "UI/UX Basics", hours: 12, lessons: 5, image: uxui },
     { title: "Machine Learning", hours: 52, lessons: 15, image: machineLearning },
     { title: "Python Course", hours: 22, lessons: 7, image: python },
+];
+
+// Sample testimonials: replace the text, names and countries with real ones
+const reviews = [
+    {
+        fullname: "Aya mohammed",
+        country: "Morocco",
+        comment: "The courses are clear and well organized. I finished my first project in two weeks.",
+        image: student2,
+    },
+    {
+        fullname: "Aliya allami",
+        country: "Morocco",
+        comment: "Learning at my own pace made it easy to balance the courses with my studies.",
+        image: student3,
+    },
+    {
+        fullname: "moha yassir",
+        country: "Morocco",
+        comment: "The practical lessons gave me the confidence to apply for my first internship.",
+        image: student1,
+    },
 ];
 
 function Dashboard() {
@@ -82,7 +107,7 @@ function Dashboard() {
                     max-width: 700px;
                     height: 58px;
                     padding: 0 22px;
-                    border-radius: 10px;
+                    border-radius: 8px;
                     font-size: 17px;
                 }
 
@@ -135,7 +160,9 @@ function Dashboard() {
                     gap: 8px;
                 }
                 .dashboard-page .filters-action { grid-column: 1 / -1; }
-                .dashboard-page .filters-action button {
+                .dashboard-page .filters-action button,
+                .dashboard-page .course button,
+                .dashboard-page .main-button button {
                     height: 40px;
                     padding: 0 18px;
                     background: #866c37;
@@ -148,8 +175,12 @@ function Dashboard() {
                     cursor: pointer;
                     transition: background 0.2s;
                 }
-                .dashboard-page .filters-action button:hover { background: #6f592c; }
-                .dashboard-page .filters-action button:focus-visible {
+                .dashboard-page .filters-action button:hover,
+                .dashboard-page .course button:hover,
+                .dashboard-page .main-button button:hover { background: #6f592c; }
+                .dashboard-page .filters-action button:focus-visible,
+                .dashboard-page .course button:focus-visible,
+                .dashboard-page .main-button button:focus-visible {
                     outline: 2px solid #b08968;
                     outline-offset: 2px;
                 }
@@ -181,12 +212,28 @@ function Dashboard() {
                 }
 
                 /* ===== Featured courses ===== */
-                .dashboard-page .featured-courses { margin-top: 32px; }
-                .dashboard-page .featured-courses h2 {
-                    margin: 0 0 16px;
-                    font-size: 20px;
-                    font-weight: 600;
+                .dashboard-page .featured-courses { margin-top: 56px; }
+                .dashboard-page .featured-courses h2,
+                .dashboard-page .review h2 {
+                    position: relative;
+                    margin: 0 0 48px;
+                    padding-bottom: 18px;
+                    font-size: 36px;
+                    font-weight: 700;
+                    line-height: 1.15;
                     color: #3b332b;
+                }
+                .dashboard-page .featured-courses h2::after,
+                .dashboard-page .review h2::after {
+                    content: "";
+                    position: absolute;
+                    left: 50%;
+                    bottom: 0;
+                    width: 56px;
+                    height: 3px;
+                    transform: translateX(-50%);
+                    background: #866c37;
+                    border-radius: 2px;
                 }
                 .dashboard-page .empty-state {
                     margin: 0;
@@ -196,7 +243,7 @@ function Dashboard() {
                 .dashboard-page .course-list {
                     display: grid;
                     grid-template-columns: repeat(3, minmax(0, 1fr));
-                    gap: 16px;
+                    gap: 40px 32px;
                 }
                 .dashboard-page .course {
                     display: flex;
@@ -209,11 +256,10 @@ function Dashboard() {
                     border: 1px solid #ebe3d5;
                     border-radius: 12px;
                     box-shadow: 0 1px 3px rgba(120, 100, 70, 0.06);
-                    transition: transform 0.2s, box-shadow 0.2s;
+                    transition: box-shadow 0.2s;
                 }
                 .dashboard-page .course:hover {
-                    transform: translateY(-3px);
-                    box-shadow: 0 8px 20px rgba(120, 100, 70, 0.14);
+                    box-shadow: 0 4px 12px rgba(120, 100, 70, 0.14);
                 }
                 .dashboard-page .course .course-image {
                     display: block;
@@ -235,27 +281,69 @@ function Dashboard() {
                     font-size: 13px;
                     color: #7a6e62;
                 }
-                .dashboard-page .course button {
-                    margin-top: 12px;
-                    height: 40px;
-                    padding: 0 18px;
-                    background: #866c37;
-                    border: none;
-                    border-radius: 8px;
-                    font-family: inherit;
-                    font-size: 14px;
-                    font-weight: 500;
-                    color: #ffffff;
-                    cursor: pointer;
-                    transition: background 0.2s;
+                .dashboard-page .course button { margin-top: 12px; }
+
+                .dashboard-page .main-button { margin-top: 40px; }
+
+                /* ===== Learner opinions ===== */
+                .dashboard-page .review { margin-top: 72px; }
+                .dashboard-page .review h2 { margin-bottom: 20px; }
+                .dashboard-page .review .review-subtitle {
+                    margin: 0 0 48px;
+                    font-size: 16px;
+                    color: #7a6e62;
                 }
-                .dashboard-page .course button:hover { background: #6f592c; }
-                .dashboard-page .course button:focus-visible {
-                    outline: 2px solid #b08968;
-                    outline-offset: 2px;
+                .dashboard-page .review-list {
+                    display: grid;
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                    gap: 32px;
+                }
+                .dashboard-page .review-card {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 14px;
+                    margin: 0;
+                    padding: 28px 20px;
+                    background: #fffdf9;
+                    border: 1px solid #ebe3d5;
+                    border-radius: 12px;
+                    box-shadow: 0 1px 3px rgba(120, 100, 70, 0.06);
+                    transition: box-shadow 0.2s;
+                }
+                .dashboard-page .review-card:hover {
+                    box-shadow: 0 4px 12px rgba(120, 100, 70, 0.14);
+                }
+                .dashboard-page .review-avatar {
+                    width: 72px;
+                    height: 72px;
+                    border: 2px solid #ebe3d5;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+                .dashboard-page .review-text {
+                    margin: 0;
+                    font-size: 14px;
+                    line-height: 1.6;
+                    color: #7a6e62;
+                }
+                .dashboard-page .review-card figcaption {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+                }
+                .dashboard-page .review-name {
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: #3b332b;
+                }
+                .dashboard-page .review-country {
+                    font-size: 13px;
+                    color: #9a8d7d;
                 }
 
                 @media (max-width: 900px) {
+                    .dashboard-page .review-list { grid-template-columns: minmax(0, 420px); justify-content: center; }
                     .dashboard-page .course-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
                 }
                 @media (max-width: 800px) {
@@ -266,7 +354,12 @@ function Dashboard() {
                     .dashboard-page .hero h1 { font-size: 32px; }
                     .dashboard-page .hero .search h2 { font-size: 17px; margin-bottom: 20px; }
                     .dashboard-page .hero .search input { height: 52px; font-size: 16px; }
-                    .dashboard-page .course-list { grid-template-columns: minmax(0, 1fr); }
+                    .dashboard-page .featured-courses h2,
+                    .dashboard-page .review h2 { font-size: 28px; }
+                    .dashboard-page .featured-courses h2 { margin-bottom: 36px; }
+                    .dashboard-page .review h2 { margin-bottom: 16px; }
+                    .dashboard-page .review .review-subtitle { margin-bottom: 36px; }
+                    .dashboard-page .course-list { grid-template-columns: minmax(0, 1fr); gap: 32px; }
                 }
             `}</style>
 
@@ -359,6 +452,28 @@ function Dashboard() {
                             ))}
                         </div>
                     )}
+                    {visibleCourses.length > 0 && (
+                        <div className="main-button">
+                            <button type="button">More courses</button>
+                        </div>
+                    )}
+                </div>
+
+                <div className="review">
+                    <h2>Learner opinions</h2>
+                    <p className="review-subtitle">Real impact and inspiring experiences</p>
+                    <div className="review-list">
+                        {reviews.map((review) => (
+                            <figure className="review-card" key={review.fullname}>
+                                <img className="review-avatar" src={review.image} alt={review.fullname} />
+                                <blockquote className="review-text">“{review.comment}”</blockquote>
+                                <figcaption>
+                                    <span className="review-name">{review.fullname}</span>
+                                    <span className="review-country">{review.country}</span>
+                                </figcaption>
+                            </figure>
+                        ))}
+                    </div>
                 </div>
             </div>
         </>
