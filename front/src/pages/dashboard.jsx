@@ -7,9 +7,14 @@ const courses = [
 ];
 
 function Dashboard() {
-    const [LearningFormats, setLearningFormats] = useState("In-Person Courses");
-    const [Level, setLevel] = useState("Beginner");
-    const [Categories, setCategories] = useState("Business");
+    const [learningFormat, setLearningFormat] = useState("In-person courses");
+    const [level, setLevel] = useState("Beginner");
+    const [category, setCategory] = useState("Business");
+    const [search, setSearch] = useState("");
+
+    const visibleCourses = courses.filter((course) =>
+        course.title.toLowerCase().includes(search.trim().toLowerCase())
+    );
 
     return (
         <>
@@ -28,6 +33,38 @@ function Dashboard() {
                     font-weight: 600;
                     color: #3b332b;
                 }
+
+                /* ===== Search ===== */
+                .dashboard-page .search {
+                    margin: 0 0 24px;
+                }
+                .dashboard-page .search h2 {
+                    margin: 0 0 12px;
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: #7a6e62;
+                }
+                .dashboard-page .search input {
+                    width: 100%;
+                    max-width: 520px;
+                    height: 44px;
+                    padding: 0 14px;
+                    background: #ffffff;
+                    border: 1px solid #e0d5c4;
+                    border-radius: 8px;
+                    font-family: inherit;
+                    font-size: 14px;
+                    color: #3b332b;
+                    box-sizing: border-box;
+                    outline: none;
+                    transition: border-color 0.2s, box-shadow 0.2s;
+                }
+                .dashboard-page .search input::placeholder { color: #9a8d7d; }
+                .dashboard-page .search input:focus {
+                    border-color: #b08968;
+                    box-shadow: 0 0 0 3px rgba(176, 137, 104, 0.18);
+                }
+
                 .dashboard-page .filters {
                     display: grid;
                     grid-template-columns: repeat(3, minmax(0, 260px));
@@ -44,6 +81,25 @@ function Dashboard() {
                     flex-direction: column;
                     align-items: center;
                     gap: 8px;
+                }
+                .dashboard-page .filters-action { grid-column: 1 / -1; }
+                .dashboard-page .filters-action button {
+                    height: 40px;
+                    padding: 0 18px;
+                    background: #866c37;
+                    border: none;
+                    border-radius: 8px;
+                    font-family: inherit;
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #ffffff;
+                    cursor: pointer;
+                    transition: background 0.2s;
+                }
+                .dashboard-page .filters-action button:hover { background: #6f592c; }
+                .dashboard-page .filters-action button:focus-visible {
+                    outline: 2px solid #b08968;
+                    outline-offset: 2px;
                 }
                 .dashboard-page .label {
                     margin: 0;
@@ -79,6 +135,11 @@ function Dashboard() {
                     font-size: 20px;
                     font-weight: 600;
                     color: #3b332b;
+                }
+                .dashboard-page .empty-state {
+                    margin: 0;
+                    font-size: 14px;
+                    color: #9a8d7d;
                 }
                 .dashboard-page .course-list {
                     display: grid;
@@ -144,24 +205,40 @@ function Dashboard() {
             `}</style>
 
             <div className="dashboard-page">
-                <h1>welcome to learnly</h1>
+                <h1>Welcome to Learnly</h1>
+
+                <div className="search">
+                    <h2>Discover over 300 free training courses on the platform</h2>
+                    <input
+                        type="search"
+                        placeholder="What do you want to learn today?"
+                        aria-label="Search courses"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
+
                 <div className="filters">
                     <div className="filter learning-formats">
-                        <p className="label">Learning Formats</p>
+                        <label className="label" htmlFor="learning-format">
+                            Learning format
+                        </label>
                         <select
-                            value={LearningFormats}
-                            onChange={(e) => setLearningFormats(e.target.value)}
+                            id="learning-format"
+                            value={learningFormat}
+                            onChange={(e) => setLearningFormat(e.target.value)}
                         >
-                            <option>In-Person Courses</option>
-                            <option>Online Courses</option>
-                            <option>Live Online Courses</option>
+                            <option>In-person courses</option>
+                            <option>Online courses</option>
+                            <option>Live online courses</option>
                         </select>
                     </div>
 
                     <div className="filter level">
-                        <p className="label">level</p>
+                        <label className="label" htmlFor="level">Level</label>
                         <select
-                            value={Level}
+                            id="level"
+                            value={level}
                             onChange={(e) => setLevel(e.target.value)}
                         >
                             <option>Beginner</option>
@@ -172,32 +249,43 @@ function Dashboard() {
                     </div>
 
                     <div className="filter categories">
-                        <p className="label">Categories</p>
+                        <label className="label" htmlFor="category">Category</label>
                         <select
-                            value={Categories}
-                            onChange={(e) => setCategories(e.target.value)}
+                            id="category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
                         >
                             <option>Business</option>
                             <option>Programming</option>
                             <option>Management</option>
-                            <option>Computer Science</option>
+                            <option>Computer science</option>
                             <option>Mathematics</option>
                         </select>
+                    </div>
+
+                    <div className="filters-action">
+                        <button type="button">Apply filters</button>
                     </div>
                 </div>
 
                 <div className="featured-courses">
-                    <h2>Featured Courses</h2>
-                    <div className="course-list">
-                        {courses.map((course) => (
-                            <div className="course" key={course.title}>
-                                <p className="course-title">{course.title}</p>
-                                <p className="course-meta">{course.hours} Hours</p>
-                                <p className="course-meta">{course.lessons} lessons</p>
-                                <button type="button">buy this Course</button>
-                            </div>
-                        ))}
-                    </div>
+                    <h2>Featured courses</h2>
+                    {visibleCourses.length === 0 ? (
+                        <p className="empty-state">
+                            No course matches "{search}". Try a different keyword.
+                        </p>
+                    ) : (
+                        <div className="course-list">
+                            {visibleCourses.map((course) => (
+                                <div className="course" key={course.title}>
+                                    <p className="course-title">{course.title}</p>
+                                    <p className="course-meta">{course.hours} hours</p>
+                                    <p className="course-meta">{course.lessons} lessons</p>
+                                    <button type="button">View course</button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </>
