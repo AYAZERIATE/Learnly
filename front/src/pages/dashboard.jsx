@@ -1,4 +1,5 @@
 import { useState } from "react";
+import heroImage from "../assets/dashboard.jpg";
 
 const courses = [
     { title: "UI/UX Basics", hours: 12, lessons: 5 },
@@ -32,6 +33,54 @@ function Dashboard() {
                     font-size: 24px;
                     font-weight: 600;
                     color: #3b332b;
+                }
+
+                /* ===== Hero (image + title + search) ===== */
+                .dashboard-page .hero {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 440px;
+                    /* full-bleed: cancel the page padding and max-width */
+                    margin: -32px calc(50% - 50vw) 24px;
+                    padding: 40px 24px;
+                    overflow: hidden;
+                    background-color: #866c37;
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+                .dashboard-page .hero::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(180deg, rgba(40, 30, 15, 0.5), rgba(40, 30, 15, 0.65));
+                }
+                .dashboard-page .hero-content {
+                    position: relative;
+                    z-index: 1;
+                    width: 100%;
+                }
+                .dashboard-page .hero h1 {
+                    margin: 0 0 16px;
+                    font-size: 48px;
+                    line-height: 1.15;
+                    color: #ffffff;
+                }
+                .dashboard-page .hero .search { margin: 0; }
+                .dashboard-page .hero .search h2 {
+                    margin: 0 0 28px;
+                    font-size: 21px;
+                    line-height: 1.4;
+                    color: rgba(255, 255, 255, 0.92);
+                }
+                .dashboard-page .hero .search input {
+                    max-width: 700px;
+                    height: 58px;
+                    padding: 0 22px;
+                    border-radius: 10px;
+                    font-size: 17px;
                 }
 
                 /* ===== Search ===== */
@@ -200,23 +249,33 @@ function Dashboard() {
                     .dashboard-page .filters { grid-template-columns: minmax(0, 320px); }
                 }
                 @media (max-width: 600px) {
+                    .dashboard-page .hero { min-height: 340px; margin-top: -24px; padding: 32px 16px; }
+                    .dashboard-page .hero h1 { font-size: 32px; }
+                    .dashboard-page .hero .search h2 { font-size: 17px; margin-bottom: 20px; }
+                    .dashboard-page .hero .search input { height: 52px; font-size: 16px; }
                     .dashboard-page .course-list { grid-template-columns: minmax(0, 1fr); }
                 }
             `}</style>
 
             <div className="dashboard-page">
-                <h1>Welcome to Learnly</h1>
-
-                <div className="search">
-                    <h2>Discover over 300 free training courses on the platform</h2>
-                    <input
-                        type="search"
-                        placeholder="What do you want to learn today?"
-                        aria-label="Search courses"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                </div>
+                <section
+                    className="hero"
+                    style={{ backgroundImage: `url(${heroImage})` }}
+                >
+                    <div className="hero-content">
+                        <h1>Welcome to Learnly</h1>
+                        <div className="search">
+                            <h2>Discover over 300 free training courses on the platform</h2>
+                            <input
+                                type="search"
+                                placeholder="What do you want to learn today?"
+                                aria-label="Search courses"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </section>
 
                 <div className="filters">
                     <div className="filter learning-formats">

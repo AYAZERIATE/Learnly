@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../compenent/navbar";
-import Sidebar from "../compenent/sidebar";
 import Footer from "../compenent/footer";
 
 function MainLayout() {
@@ -24,6 +23,7 @@ function MainLayout() {
                     flex: 1;
                     min-width: 0;
                     padding: 32px 24px;
+                    overflow-x: clip;
                 }
 
                 @media (max-width: 600px) {
@@ -34,7 +34,6 @@ function MainLayout() {
             <div className="app-layout">
                 <Navbar />
                 <div className="app-body">
-                    <Sidebar />
                     <main className="main-content">
                         <Outlet />
                     </main>
