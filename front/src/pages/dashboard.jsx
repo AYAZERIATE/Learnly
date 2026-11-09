@@ -1,10 +1,13 @@
 import { useState } from "react";
 import heroImage from "../assets/dashboard.jpg";
+import python from "../assets/Python.jpg";
+import uxui from "../assets/Uxui.jpg";
+import machineLearning from "../assets/Machinelearning.jpg";
 
 const courses = [
-    { title: "UI/UX Basics", hours: 12, lessons: 5 },
-    { title: "Machine Learning", hours: 52, lessons: 15 },
-    { title: "Python Course", hours: 22, lessons: 7 },
+    { title: "UI/UX Basics", hours: 12, lessons: 5, image: uxui },
+    { title: "Machine Learning", hours: 52, lessons: 15, image: machineLearning },
+    { title: "Python Course", hours: 22, lessons: 7, image: python },
 ];
 
 function Dashboard() {
@@ -200,7 +203,8 @@ function Dashboard() {
                     flex-direction: column;
                     align-items: center;
                     gap: 6px;
-                    padding: 24px 16px;
+                    padding: 0 0 24px;
+                    overflow: hidden;
                     background: #fffdf9;
                     border: 1px solid #ebe3d5;
                     border-radius: 12px;
@@ -211,6 +215,15 @@ function Dashboard() {
                     transform: translateY(-3px);
                     box-shadow: 0 8px 20px rgba(120, 100, 70, 0.14);
                 }
+                .dashboard-page .course .course-image {
+                    display: block;
+                    width: 100%;
+                    height: 160px;
+                    margin-bottom: 14px;
+                    object-fit: cover;
+                }
+                .dashboard-page .course .course-title,
+                .dashboard-page .course .course-meta { padding: 0 16px; }
                 .dashboard-page .course .course-title {
                     margin: 0 0 6px;
                     font-size: 16px;
@@ -337,6 +350,7 @@ function Dashboard() {
                         <div className="course-list">
                             {visibleCourses.map((course) => (
                                 <div className="course" key={course.title}>
+                                    <img className="course-image" src={course.image} alt={course.title} />
                                     <p className="course-title">{course.title}</p>
                                     <p className="course-meta">{course.hours} hours</p>
                                     <p className="course-meta">{course.lessons} lessons</p>
